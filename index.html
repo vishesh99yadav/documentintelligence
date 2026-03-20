@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document Intelligence UI</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+<div class="container">
+
+  <div class="config-panel">
+    <h2>Azure Config</h2>
+    <input type="text" id="endpoint" placeholder="Enter Endpoint">
+    <input type="password" id="key" placeholder="Enter API Key">
+  </div>
+
+  <div class="input-panel">
+    <h2>Upload / Link</h2>
+    <input type="file" id="fileInput">
+    <div class="or">OR</div>
+    <input type="text" id="imageUrl" placeholder="Paste Image URL">
+  </div>
+
+  <div class="output-panel">
+    <h2>Analysis Result</h2>
+    <pre id="output">Waiting for analysis...</pre>
+  </div>
+
+  <button id="analyzeBtn">Analyze</button>
+
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
