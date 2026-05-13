@@ -2,35 +2,196 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Document Intelligence UI</title>
-  <link rel="stylesheet" href="/static/styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice Intelligence Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="page-shell">
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <div class="grid-overlay"></div>
 
-<div class="container">
+    <header class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Azure AI Document Intelligence</span>
+        <h1>Invoice Intelligence Studio</h1>
+        <p>
+          Analyze multiple invoice formats, extract finance-ready fields, and validate confidence at a glance for enterprise operations.
+        </p>
+        <div class="hero-pills">
+          <span>Multi-file batch analysis</span>
+          <span>Confidence-based validation</span>
+          <span>Prebuilt invoice model</span>
+        </div>
+      </div>
 
-  <div class="config-panel">
-    <h2>Azure Config</h2>
-    <input type="text" id="endpoint" placeholder="Enter Endpoint">
-    <input type="password" id="key" placeholder="Enter API Key">
+      <aside class="hero-side">
+        <div class="insight-card">
+          <p class="insight-label">Target fields</p>
+          <ul>
+            <li>Invoice number</li>
+            <li>Vendor name</li>
+            <li>Invoice date</li>
+            <li>Tax amount</li>
+            <li>Total payable</li>
+          </ul>
+        </div>
+      </aside>
+    </header>
+
+    <main class="dashboard">
+      <section class="panel config-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="section-kicker">Connection</p>
+            <h2>Service Configuration</h2>
+          </div>
+          <span class="status-dot" id="connectionBadge">Not configured</span>
+        </div>
+
+        <div class="form-grid">
+          <label class="field">
+            <span>Endpoint</span>
+            <input id="endpointInput" type="url" placeholder="https://your-resource.cognitiveservices.azure.com/">
+          </label>
+
+          <label class="field">
+            <span>API Key</span>
+            <input id="apiKeyInput" type="password" placeholder="Paste your Azure key">
+          </label>
+
+          <label class="field">
+            <span>API Version</span>
+            <input id="apiVersionInput" type="text" value="2024-11-30" placeholder="2024-11-30">
+          </label>
+
+          <label class="field">
+            <span>Confidence Threshold</span>
+            <input id="confidenceThresholdInput" type="number" min="0" max="1" step="0.01" value="0.8">
+          </label>
+        </div>
+
+        <div class="actions-row">
+          <button id="saveConfigButton" class="btn btn-secondary">Save Settings</button>
+          <p class="helper-text">Credentials stay in your browser storage only.</p>
+        </div>
+      </section>
+
+      <section class="panel upload-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="section-kicker">Input</p>
+            <h2>Invoice Batch Upload</h2>
+          </div>
+          <span class="counter-pill" id="fileCounter">0 files selected</span>
+        </div>
+
+        <label class="dropzone" id="dropzone">
+          <input id="fileInput" type="file" multiple accept=".pdf,image/*,.tif,.tiff,.bmp,.png,.jpg,.jpeg">
+          <div class="dropzone-content">
+            <div class="dropzone-icon">+</div>
+            <h3>Drop invoices here</h3>
+            <p>Upload PDFs or images with different invoice formats.</p>
+            <span class="dropzone-link">Browse files</span>
+          </div>
+        </label>
+
+        <div class="queue" id="fileQueue"></div>
+
+        <div class="actions-row">
+          <button id="analyzeButton" class="btn btn-primary">Analyze Invoices</button>
+          <button id="clearButton" class="btn btn-ghost">Clear Queue</button>
+        </div>
+      </section>
+
+      <section class="panel summary-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="section-kicker">Validation</p>
+            <h2>Accuracy Snapshot</h2>
+          </div>
+          <span class="status-chip" id="runStatus">Idle</span>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span>Processed</span>
+            <strong id="processedCount">0</strong>
+            <small>Invoices analyzed</small>
+          </article>
+          <article class="stat-card">
+            <span>Average Confidence</span>
+            <strong id="averageConfidence">0%</strong>
+            <small>Across key extracted fields</small>
+          </article>
+          <article class="stat-card">
+            <span>High-Confidence Docs</span>
+            <strong id="highConfidenceCount">0</strong>
+            <small>Meeting threshold</small>
+          </article>
+          <article class="stat-card">
+            <span>Needs Review</span>
+            <strong id="reviewCount">0</strong>
+            <small>Missing or low-confidence fields</small>
+          </article>
+        </div>
+
+        <div class="validation-note" id="validationNote">
+          Add your Azure endpoint and key, upload invoices, then start analysis to measure extraction quality.
+        </div>
+      </section>
+
+      <section class="panel results-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="section-kicker">Results</p>
+            <h2>Extracted Invoice Data</h2>
+          </div>
+        </div>
+
+        <div class="results-list" id="resultsList">
+          <div class="empty-state">
+            <h3>No analysis yet</h3>
+            <p>Your extracted invoice details and validation insights will appear here.</p>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
 
-  <div class="input-panel">
-    <h2>Upload / Link</h2>
-    <input type="file" id="fileInput">
-    <div class="or">OR</div>
-    <input type="text" id="imageUrl" placeholder="Paste Image URL">
-  </div>
+  <template id="fileItemTemplate">
+    <article class="queue-item">
+      <div class="queue-meta">
+        <strong class="queue-name"></strong>
+        <span class="queue-size"></span>
+      </div>
+      <button class="queue-remove" type="button" aria-label="Remove file">Remove</button>
+    </article>
+  </template>
 
-  <div class="output-panel">
-    <h2>Analysis Result</h2>
-    <pre id="output">Waiting for analysis...</pre>
-  </div>
+  <template id="resultTemplate">
+    <article class="result-card">
+      <div class="result-head">
+        <div>
+          <h3 class="result-name"></h3>
+          <p class="result-subtitle"></p>
+        </div>
+        <span class="result-badge"></span>
+      </div>
 
-  <button id="analyzeBtn">Analyze</button>
+      <div class="field-grid"></div>
 
-</div>
+      <div class="review-strip">
+        <strong>Validation notes</strong>
+        <p class="review-text"></p>
+      </div>
+    </article>
+  </template>
 
-<script src="/static/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
