@@ -1,135 +1,54 @@
-.
+**Documentation**
 
-🧠 Project Title
+This project is a browser-based invoice analysis dashboard built for Azure AI Document Intelligence. It lets you enter your Azure `endpoint` and `API key`, upload multiple invoice files, and extract important fields like invoice number, vendor name, invoice date, tax amount, and total payable amount.
 
-AI-Based Document Intelligence Web Application using Azure
+**Files**
+- [index.html](C:/Users/perfect/OneDrive/Desktop/travelling%20blog/index.html): Main page structure
+- [style.css](C:/Users/perfect/OneDrive/Desktop/travelling%20blog/style.css): UI styling, layout, and animations
+- [script.js](C:/Users/perfect/OneDrive/Desktop/travelling%20blog/script.js): Azure API integration, file upload handling, polling, and result rendering
 
-📌 Project Overview
+**How It Works**
+1. Open `index.html` in a browser.
+2. Enter your Azure Document Intelligence `endpoint` and `API key`.
+3. Optionally adjust:
+   - `API Version`
+   - `Confidence Threshold`
+4. Upload one or more invoice files in PDF or image format.
+5. Click `Analyze Invoices`.
+6. The app sends each file to Azure’s `prebuilt-invoice` model.
+7. Results are shown in cards with extracted values and confidence percentages.
 
-Developed a full-stack web application that performs optical character recognition (OCR) on images using Microsoft Azure Document Intelligence. The system allows users to upload an image or provide an image URL and extracts readable text in real-time.
+**Extracted Fields**
+- Invoice Number
+- Vendor Name
+- Invoice Date
+- Tax Amount
+- Total Payable
 
-🎯 Objective
+**Validation Features**
+- Shows confidence score for each extracted field
+- Marks invoices as `Validated` or `Review Needed`
+- Provides summary metrics:
+  - Processed invoices
+  - Average confidence
+  - High-confidence documents
+  - Documents needing review
 
-To build an intelligent system that automates text extraction from documents, reducing manual effort and enabling further processing like data analysis or automation workflows.
+**Storage**
+- The endpoint, API key, API version, and confidence threshold are saved in browser `localStorage`.
+- This means settings remain available on the same browser until cleared.
 
-🏗️ System Architecture
+**Important Note**
+This version calls Azure directly from the browser. That is simple for testing, but for production enterprise use, a backend proxy is recommended so the API key is not exposed in client-side code.
 
-Frontend (Client-side):
+**Supported File Types**
+- PDF
+- PNG
+- JPG / JPEG
+- TIFF
+- BMP
 
-HTML, CSS, JavaScript
+**Best Use Case**
+This solution is good for testing invoice extraction accuracy across multiple invoice formats and evaluating whether Azure Document Intelligence is suitable for enterprise-level financial operations.
 
-Responsive UI with animated components
-
-User inputs: Azure endpoint, API key, image upload or URL
-
-Backend (Server-side):
-
-Python with Flask
-
-REST API endpoint (/analyze)
-
-Handles user input, communicates with Azure API
-
-Cloud Integration:
-
-Azure Document Intelligence (prebuilt-read model)
-
-Extracts text from images using OCR
-
-⚙️ Key Features
-✅ 1. Dual Input Support
-
-Upload local image files
-
-Or analyze images via URL
-
-✅ 2. Real-time Text Extraction
-
-Uses Azure OCR model
-
-Displays extracted text instantly
-
-✅ 3. Secure API Handling
-
-API calls handled via backend (Flask)
-
-Prevents direct exposure of Azure keys in frontend
-
-✅ 4. Interactive UI
-
-Clean layout with separate sections:
-
-Configuration panel
-
-Input panel
-
-Output panel
-
-Animated button and responsive design
-
-✅ 5. Error Handling
-
-Handles missing inputs
-
-Displays API or server errors clearly
-
-🧰 Technologies Used
-Category	Technology
-Frontend	HTML, CSS, JavaScript
-Backend	Python, Flask
-Cloud AI	Azure Document Intelligence
-Libraries	flask-cors, azure-ai-documentintelligence
-Protocol	REST API
-🔄 Workflow
-
-User enters Azure endpoint + API key
-
-User uploads image or provides URL
-
-Frontend sends request to Flask backend
-
-Backend calls Azure Document Intelligence API
-
-Azure processes image using OCR model
-
-Extracted text is returned and displayed
-
-📊 Output
-
-Extracted text displayed line-by-line
-
-Supports multiple pages and structured text
-
-🚧 Challenges Faced
-
-Handling CORS issues between frontend and backend
-
-Managing Azure SDK changes (body vs analyze_request)
-
-Ensuring correct Flask project structure (templates/static)
-
-Debugging environment issues (pip, modules, interpreter)
-
-💡 Learning Outcomes
-
-Hands-on experience with cloud AI services (Azure)
-
-Understanding of full-stack development workflow
-
-Learned API integration and asynchronous processing
-
-Improved debugging skills in Python and web apps
-
-Exposure to real-world AI application development
-
-🚀 Future Enhancements
-
-Add table extraction (prebuilt-layout)
-
-Export results to PDF / Excel
-
-Add user authentication & history tracking
-
-Deploy application on cloud (Azure / Render)
-
-Integrate AI for auto summarization or MCQ solving
+If you want, I can also turn this into a cleaner `README.md` file for your project folder.
